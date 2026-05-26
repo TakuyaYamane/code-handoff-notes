@@ -8,13 +8,25 @@ class Repository < ApplicationRecord
 
   validate :url_must_be_github_url
 
+  def github_owner
+    github_url_parts[0]
+  end
+
+  def github_repo
+    github_url_parts[1]
+  end
+
   private
+
+  def github_url_parts
+    url.delete_suffix(".git").split("github.com/").last.split("/")
+  end
 
   def url_must_be_github_url
     return if url.blank?
 
-    unless url.match?(/\Ahttps:\/\/github\.com\/[\w.-]+\/[\w.-]+\z/)
-      errors.add(:url, "must be a valid GitHub repository URL")
+    unless url.match?(/\Ahttps:\/\/github\.com\/[\w.-]+\/[\w.-]+(\.git)?\z/)
+      errors.add(:url, "はGitHubリポジトリのURLを入力してください")
     end
   end
 end

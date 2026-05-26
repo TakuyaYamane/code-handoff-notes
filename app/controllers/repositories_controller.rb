@@ -3,8 +3,9 @@ class RepositoriesController < ApplicationController
   before_action :set_repository, only: [:show, :edit, :update, :destroy]
 
   def show
-    @handoff_document = @repository.handoff_document
-  end
+  @handoff_document = @repository.handoff_document
+  @github_info = GithubRepositoryFetcher.new(@repository).call
+end
 
   def new
     @repository = @project.repositories.new

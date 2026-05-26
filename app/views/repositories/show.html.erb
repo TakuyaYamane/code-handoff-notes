@@ -15,6 +15,7 @@
       <strong>GitHub URL：</strong>
       <%= link_to @repository.url, @repository.url, target: "_blank", rel: "noopener" %>
     </li>
+
     <li>
       <strong>説明：</strong>
       <%= @repository.description.presence || "説明はまだありません。" %>
@@ -23,13 +24,71 @@
 
   <div class="actions">
     <%= link_to "編集する", edit_repository_path(@repository), class: "button button-secondary" %>
+
     <%= button_to "削除する",
-              repository_path(@repository),
-              method: :delete,
-              form: { data: { turbo_confirm: "本当に削除しますか？" } },
-              class: "button button-danger" %>
+                  repository_path(@repository),
+                  method: :delete,
+                  form: { data: { turbo_confirm: "本当に削除しますか？関連する引き継ぎドキュメントも削除されます。" } },
+                  class: "button button-danger" %>
+
     <%= link_to "プロジェクトに戻る", project_path(@repository.project), class: "button button-secondary" %>
   </div>
+</div>
+
+<div class="card">
+  <h3 class="card-title">GitHubから取得した情報</h3>
+
+  <% if @github_info.present? && @github_info[:success] %>
+    <ul class="meta-list">
+      <li>
+        <strong>正式名：</strong>
+        <%= @github_info[:full_name] %>
+      </li>
+
+      <li>
+        <strong>説明：</strong>
+        <%= @github_info[:description].presence || "GitHub上の説明はありません。" %>
+      </li>
+
+      <li>
+        <strong>主な言語：</strong>
+        <%= @github_info[:language].presence || "不明" %>
+      </li>
+
+      <li>
+        <strong>スター数：</strong>
+        <%= @github_info[:stars] %>
+      </li>
+
+      <li>
+        <strong>デフォルトブランチ：</strong>
+        <%= @github_info[:default_branch] %>
+      </li>
+
+      <li>
+        <strong>最終更新日時：</strong>
+        <%= @github_info[:updated_at] %>
+      </li>
+    </ul>
+
+    <div class="actions">
+      <%= link_to "GitHubで開く",
+                  @github_info[:html_url],
+                  target: "_blank",
+                  rel: "noopener",
+                  class: "button button-secondary" %>
+    </div>
+  <% else %>
+    <p class="card-description">
+      GitHubから情報を取得できませんでした。
+    </p>
+
+    <% if @github_info.present? && @github_info[:error].present? %>
+      <p class="help-text">
+        <%= @github_info[:error] %>
+      </p>
+    <% end %>
+  <% end %>
 </div>
 
 <div class="card">
