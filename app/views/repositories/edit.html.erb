@@ -1,3 +1,12 @@
-<h2>Edit Repository</h2>
+<div class="page-header">
+  <div>
+    <h2 class="page-title">リポジトリを編集</h2>
+    <p class="page-lead">
+      GitHub URLや説明を更新します。
+    </p>
+  </div>
+</div>
 
-<%= render "form", repository: @repository, url: repository_path(@repository) %>
+<div class="card">
+  <%= render "form", repository: @repository, url: repository_path(@repository) %>
+</div>

@@ -1,6 +1,6 @@
 <% if project.errors.any? %>
-  <div style="color: red;">
-    <h3><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h3>
+  <div class="error-box">
+    <h3>入力内容を確認してください</h3>
 
     <ul>
       <% project.errors.full_messages.each do |message| %>
@@ -11,17 +11,19 @@
 <% end %>
 
 <%= form_with model: project do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name, placeholder: "Example: Learning Calendar App" %>
+  <div class="form-group">
+    <%= form.label :name, "プロジェクト名" %>
+    <%= form.text_field :name, placeholder: "例：学習記録カレンダーアプリ" %>
+    <p class="help-text">引き継ぎ対象となるアプリやサービスの名前です。</p>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :description %><br>
-    <%= form.text_area :description, rows: 5, placeholder: "What is this project for?" %>
+  <div class="form-group">
+    <%= form.label :description, "説明" %>
+    <%= form.text_area :description, rows: 5, placeholder: "このプロジェクトの目的や概要を書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.submit %>
+  <div class="actions">
+    <%= form.submit "保存する" %>
+    <%= link_to "戻る", projects_path, class: "button button-secondary" %>
   </div>
 <% end %>

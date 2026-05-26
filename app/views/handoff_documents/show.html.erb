@@ -1,12 +1,19 @@
-<h2>Handoff Document: <%= @repository.name %></h2>
+<div class="page-header">
+  <div>
+    <h2 class="page-title">引き継ぎドキュメント</h2>
+    <p class="page-lead">
+      <%= @repository.name %> の引き継ぎ情報をMarkdown形式で表示しています。
+    </p>
+  </div>
+</div>
 
-<p>
-  <%= link_to "Edit", edit_repository_handoff_document_path(@repository) %> |
-  <%= link_to "Back to Repository", repository_path(@repository) %>
-</p>
+<div class="card">
+  <h3 class="card-title">操作</h3>
 
-<hr>
+  <div class="actions">
+    <%= link_to "編集する", edit_repository_handoff_document_path(@repository), class: "button" %>
+    <%= link_to "リポジトリに戻る", repository_path(@repository), class: "button button-secondary" %>
+  </div>
+</div>
 
-<pre style="white-space: pre-wrap; background: #f7f7f7; padding: 16px; border: 1px solid #ddd;">
-<%= @handoff_document.generated_markdown %>
-</pre>
+<pre class="markdown-preview"><%= @handoff_document.generated_markdown %></pre>

@@ -1,6 +1,6 @@
 <% if handoff_document.errors.any? %>
-  <div style="color: red;">
-    <h3><%= pluralize(handoff_document.errors.count, "error") %> prohibited this document from being saved:</h3>
+  <div class="error-box">
+    <h3>入力内容を確認してください</h3>
 
     <ul>
       <% handoff_document.errors.full_messages.each do |message| %>
@@ -10,43 +10,44 @@
   </div>
 <% end %>
 
-<%= form_with model: [repository, handoff_document] do |form| %>
-  <div>
-    <%= form.label :overview, "System Overview" %><br>
-    <%= form.text_area :overview, rows: 6, placeholder: "What does this system do?" %>
+<%= form_with model: handoff_document, url: repository_handoff_document_path(repository) do |form| %>
+  <div class="form-group">
+    <%= form.label :overview, "システム概要" %>
+    <%= form.text_area :overview, rows: 6, placeholder: "このシステムが何をするものかを書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :features, "Main Features" %><br>
-    <%= form.text_area :features, rows: 6, placeholder: "- User registration\n- Project management\n- Markdown export" %>
+  <div class="form-group">
+    <%= form.label :features, "主な機能" %>
+    <%= form.text_area :features, rows: 6, placeholder: "- ユーザー登録\n- プロジェクト管理\n- Markdown生成" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :database_notes, "Database Notes" %><br>
-    <%= form.text_area :database_notes, rows: 6, placeholder: "Main tables, relationships, important constraints..." %>
+  <div class="form-group">
+    <%= form.label :database_notes, "データベース設計メモ" %>
+    <%= form.text_area :database_notes, rows: 6, placeholder: "主なテーブル、関連、重要な制約などを書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :environment_notes, "Environment Variables" %><br>
-    <%= form.text_area :environment_notes, rows: 5, placeholder: "DATABASE_URL, AWS_ACCESS_KEY_ID..." %>
+  <div class="form-group">
+    <%= form.label :environment_notes, "環境変数・設定" %>
+    <%= form.text_area :environment_notes, rows: 5, placeholder: "DATABASE_URL、AWS_ACCESS_KEY_ID など、本番運用に必要な設定を書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :setup_notes, "Setup Notes" %><br>
-    <%= form.text_area :setup_notes, rows: 6, placeholder: "How to set up this app locally..." %>
+  <div class="form-group">
+    <%= form.label :setup_notes, "セットアップ手順" %>
+    <%= form.text_area :setup_notes, rows: 6, placeholder: "ローカル環境で起動する手順を書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :operation_notes, "Operation Notes" %><br>
-    <%= form.text_area :operation_notes, rows: 6, placeholder: "How to deploy, monitor, and operate this app..." %>
+  <div class="form-group">
+    <%= form.label :operation_notes, "運用メモ" %>
+    <%= form.text_area :operation_notes, rows: 6, placeholder: "デプロイ、監視、運用時の注意点を書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :risks, "Risks / Handoff Warnings" %><br>
-    <%= form.text_area :risks, rows: 6, placeholder: "Known issues, fragile parts, future refactoring points..." %>
+  <div class="form-group">
+    <%= form.label :risks, "リスク・引き継ぎ時の注意点" %>
+    <%= form.text_area :risks, rows: 6, placeholder: "既知の問題、不安定な箇所、今後リファクタリングしたい箇所を書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.submit %>
+  <div class="actions">
+    <%= form.submit "ドキュメントを保存する" %>
+    <%= link_to "戻る", repository_path(repository), class: "button button-secondary" %>
   </div>
 <% end %>

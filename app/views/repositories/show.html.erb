@@ -1,30 +1,52 @@
-<h2><%= @repository.name %></h2>
+<div class="page-header">
+  <div>
+    <h2 class="page-title"><%= @repository.name %></h2>
+    <p class="page-lead">
+      このリポジトリの引き継ぎ情報を管理します。
+    </p>
+  </div>
+</div>
 
-<p>
-  <strong>URL:</strong>
-  <%= link_to @repository.url, @repository.url, target: "_blank", rel: "noopener" %>
-</p>
+<div class="card">
+  <h3 class="card-title">リポジトリ情報</h3>
 
-<p>
-  <%= @repository.description %>
-</p>
+  <ul class="meta-list">
+    <li>
+      <strong>GitHub URL：</strong>
+      <%= link_to @repository.url, @repository.url, target: "_blank", rel: "noopener" %>
+    </li>
+    <li>
+      <strong>説明：</strong>
+      <%= @repository.description.presence || "説明はまだありません。" %>
+    </li>
+  </ul>
 
-<p>
-  <%= link_to "Edit Repository", edit_repository_path(@repository) %> |
-  <%= link_to "Delete Repository", repository_path(@repository), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-  <%= link_to "Back to Project", project_path(@repository.project) %>
-</p>
+  <div class="actions">
+    <%= link_to "編集する", edit_repository_path(@repository), class: "button button-secondary" %>
+    <%= link_to "削除する", repository_path(@repository), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "button button-danger" %>
+    <%= link_to "プロジェクトに戻る", project_path(@repository.project), class: "button button-secondary" %>
+  </div>
+</div>
 
-<hr>
+<div class="card">
+  <h3 class="card-title">引き継ぎドキュメント</h3>
 
-<h3>Handoff Document</h3>
+  <% if @handoff_document.present? %>
+    <p class="card-description">
+      このリポジトリには引き継ぎドキュメントが作成されています。
+    </p>
 
-<% if @handoff_document.present? %>
-  <p>
-    <%= link_to "View Handoff Document", repository_handoff_document_path(@repository) %> |
-    <%= link_to "Edit Handoff Document", edit_repository_handoff_document_path(@repository) %>
-  </p>
-<% else %>
-  <p>No handoff document yet.</p>
-  <%= link_to "Create Handoff Document", new_repository_handoff_document_path(@repository) %>
-<% end %>
+    <div class="actions">
+      <%= link_to "ドキュメントを見る", repository_handoff_document_path(@repository), class: "button" %>
+      <%= link_to "編集する", edit_repository_handoff_document_path(@repository), class: "button button-secondary" %>
+    </div>
+  <% else %>
+    <p class="card-description">
+      まだ引き継ぎドキュメントが作成されていません。
+    </p>
+
+    <div class="actions">
+      <%= link_to "引き継ぎドキュメントを作成", new_repository_handoff_document_path(@repository), class: "button" %>
+    </div>
+  <% end %>
+</div>

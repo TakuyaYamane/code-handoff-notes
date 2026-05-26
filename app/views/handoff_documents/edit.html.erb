@@ -1,3 +1,12 @@
-<h2>Edit Handoff Document for <%= @repository.name %></h2>
+<div class="page-header">
+  <div>
+    <h2 class="page-title">引き継ぎドキュメントを編集</h2>
+    <p class="page-lead">
+      <%= @repository.name %> の引き継ぎ情報を更新します。
+    </p>
+  </div>
+</div>
 
-<%= render "form", repository: @repository, handoff_document: @handoff_document %>
+<div class="card">
+  <%= render "form", repository: @repository, handoff_document: @handoff_document %>
+</div>

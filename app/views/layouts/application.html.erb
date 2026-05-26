@@ -1,17 +1,22 @@
 <body>
-  <header style="padding: 16px; border-bottom: 1px solid #ddd;">
-    <h1>
-      <%= link_to "CodeHandoff Notes", root_path %>
-    </h1>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <h1 class="site-title">
+        <%= link_to "CodeHandoff Notes", root_path %>
+      </h1>
+      <p class="site-description">
+        ソフトウェアの引き継ぎ情報を整理し、Markdownドキュメントとして生成するRailsアプリ
+      </p>
+    </div>
   </header>
 
-  <main style="max-width: 960px; margin: 32px auto; padding: 0 16px;">
+  <main class="container">
     <% if notice.present? %>
-      <p style="color: green;"><%= notice %></p>
+      <div class="notice"><%= notice %></div>
     <% end %>
 
     <% if alert.present? %>
-      <p style="color: red;"><%= alert %></p>
+      <div class="alert"><%= alert %></div>
     <% end %>
 
     <%= yield %>

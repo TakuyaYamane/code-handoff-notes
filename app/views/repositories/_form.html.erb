@@ -1,6 +1,6 @@
 <% if repository.errors.any? %>
-  <div style="color: red;">
-    <h3><%= pluralize(repository.errors.count, "error") %> prohibited this repository from being saved:</h3>
+  <div class="error-box">
+    <h3>入力内容を確認してください</h3>
 
     <ul>
       <% repository.errors.full_messages.each do |message| %>
@@ -11,22 +11,24 @@
 <% end %>
 
 <%= form_with model: repository, url: url do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name, placeholder: "Example: code-handoff-notes" %>
+  <div class="form-group">
+    <%= form.label :name, "リポジトリ名" %>
+    <%= form.text_field :name, placeholder: "例：code-handoff-notes" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :url %><br>
+  <div class="form-group">
+    <%= form.label :url, "GitHub URL" %>
     <%= form.text_field :url, placeholder: "https://github.com/username/repository" %>
+    <p class="help-text">GitHubリポジトリのURLを入力してください。</p>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.label :description %><br>
-    <%= form.text_area :description, rows: 5, placeholder: "What does this repository do?" %>
+  <div class="form-group">
+    <%= form.label :description, "説明" %>
+    <%= form.text_area :description, rows: 5, placeholder: "このリポジトリが何をするものかを書いてください。" %>
   </div>
 
-  <div style="margin-top: 16px;">
-    <%= form.submit %>
+  <div class="actions">
+    <%= form.submit "保存する" %>
+    <%= link_to "戻る", projects_path, class: "button button-secondary" %>
   </div>
 <% end %>

@@ -1,3 +1,12 @@
-<h2>Add Repository to <%= @project.name %></h2>
+<div class="page-header">
+  <div>
+    <h2 class="page-title">リポジトリを追加</h2>
+    <p class="page-lead">
+      <%= @project.name %> に関連するGitHubリポジトリを登録します。
+    </p>
+  </div>
+</div>
 
-<%= render "form", repository: @repository, url: project_repositories_path(@project) %>
+<div class="card">
+  <%= render "form", repository: @repository, url: project_repositories_path(@project) %>
+</div>
