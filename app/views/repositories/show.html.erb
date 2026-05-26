@@ -23,7 +23,11 @@
 
   <div class="actions">
     <%= link_to "編集する", edit_repository_path(@repository), class: "button button-secondary" %>
-    <%= link_to "削除する", repository_path(@repository), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "button button-danger" %>
+    <%= button_to "削除する",
+              repository_path(@repository),
+              method: :delete,
+              form: { data: { turbo_confirm: "本当に削除しますか？" } },
+              class: "button button-danger" %>
     <%= link_to "プロジェクトに戻る", project_path(@repository.project), class: "button button-secondary" %>
   </div>
 </div>

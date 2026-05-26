@@ -21,7 +21,11 @@
 
   <div class="actions">
     <%= link_to "編集する", edit_project_path(@project), class: "button button-secondary" %>
-    <%= link_to "削除する", project_path(@project), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "button button-danger" %>
+    <%= button_to "削除する",
+              project_path(@project),
+              method: :delete,
+              form: { data: { turbo_confirm: "本当に削除しますか？" } },
+              class: "button button-danger" %>
     <%= link_to "一覧に戻る", projects_path, class: "button button-secondary" %>
   </div>
 </div>

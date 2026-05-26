@@ -34,7 +34,7 @@ class RepositoriesController < ApplicationController
   def destroy
     project = @repository.project
     @repository.destroy
-    redirect_to project_path(project), notice: "Repository was successfully deleted."
+    redirect_to project_path(project), notice: "リポジトリを削除しました。"
   end
 
   private

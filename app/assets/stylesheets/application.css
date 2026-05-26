@@ -268,3 +268,12 @@ textarea:focus {
     padding: 18px;
   }
 }
+
+.actions form {
+  display: inline-block;
+  margin: 0;
+}
+
+.button-danger {
+  font-family: inherit;
+}
