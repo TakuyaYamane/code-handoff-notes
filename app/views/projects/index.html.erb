@@ -2,7 +2,7 @@
   <div>
     <h2 class="page-title">プロジェクト一覧</h2>
     <p class="page-lead">
-      引き継ぎドキュメントを作成したいソフトウェアプロジェクトを管理します。
+      ソフトウェアの引き継ぎ情報を整理し、Markdownドキュメントとして残します。
     </p>
   </div>
 
@@ -10,21 +10,23 @@
 </div>
 
 <% if @projects.any? %>
-  <% @projects.each do |project| %>
-    <div class="card">
-      <h3 class="card-title">
-        <%= link_to project.name, project_path(project) %>
-      </h3>
+  <div class="card-grid">
+    <% @projects.each do |project| %>
+      <div class="card">
+        <h3 class="card-title">
+          <%= link_to project.name, project_path(project) %>
+        </h3>
 
-      <p class="card-description">
-        <%= project.description.presence || "説明はまだありません。" %>
-      </p>
+        <p class="card-description">
+          <%= project.description.presence || "説明はまだありません。" %>
+        </p>
 
-      <div class="actions">
-        <%= link_to "詳細を見る", project_path(project), class: "button button-secondary" %>
+        <div class="actions">
+          <%= link_to "詳細を見る", project_path(project), class: "button button-secondary" %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% else %>
   <div class="empty-state">
     <p>まだプロジェクトがありません。</p>

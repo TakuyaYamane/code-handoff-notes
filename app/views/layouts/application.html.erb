@@ -1,24 +1,39 @@
-<body>
-  <header class="site-header">
-    <div class="site-header-inner">
-      <h1 class="site-title">
-        <%= link_to "CodeHandoff Notes", root_path %>
-      </h1>
-      <p class="site-description">
-        ソフトウェアの引き継ぎ情報を整理し、Markdownドキュメントとして生成するRailsアプリ
-      </p>
-    </div>
-  </header>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CodeHandoff Notes</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <main class="container">
-    <% if notice.present? %>
-      <div class="notice"><%= notice %></div>
-    <% end %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-    <% if alert.present? %>
-      <div class="alert"><%= alert %></div>
-    <% end %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
 
-    <%= yield %>
-  </main>
-</body>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <%= link_to root_path, class: "site-logo" do %>
+          <span class="site-logo-mark">CH</span>
+          <span>
+            <span class="site-title">CodeHandoff Notes</span>
+            <span class="site-description">ソフトウェア引き継ぎドキュメント作成アプリ</span>
+          </span>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="container">
+      <% if notice.present? %>
+        <div class="notice"><%= notice %></div>
+      <% end %>
+
+      <% if alert.present? %>
+        <div class="alert"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>
