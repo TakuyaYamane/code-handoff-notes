@@ -1,0 +1,30 @@
+<h2><%= @project.name %></h2>
+
+<p><%= @project.description %></p>
+
+<p>
+  <%= link_to "Edit Project", edit_project_path(@project) %> |
+  <%= link_to "Delete Project", project_path(@project), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+</p>
+
+<hr>
+
+<h3>Repositories</h3>
+
+<p>
+  <%= link_to "Add Repository", new_project_repository_path(@project) %>
+</p>
+
+<% if @repositories.any? %>
+  <ul>
+    <% @repositories.each do |repository| %>
+      <li>
+        <strong><%= link_to repository.name, repository_path(repository) %></strong><br>
+        <%= repository.url %>
+        <p><%= repository.description %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No repositories yet.</p>
+<% end %>

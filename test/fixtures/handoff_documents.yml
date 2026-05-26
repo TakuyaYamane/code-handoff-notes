@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repository: one
+  overview: MyText
+  features: MyText
+  database_notes: MyText
+  environment_notes: MyText
+  setup_notes: MyText
+  operation_notes: MyText
+  risks: MyText
+  generated_markdown: MyText
+
+two:
+  repository: two
+  overview: MyText
+  features: MyText
+  database_notes: MyText
+  environment_notes: MyText
+  setup_notes: MyText
+  operation_notes: MyText
+  risks: MyText
+  generated_markdown: MyText

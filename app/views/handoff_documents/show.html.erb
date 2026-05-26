@@ -1,0 +1,12 @@
+<h2>Handoff Document: <%= @repository.name %></h2>
+
+<p>
+  <%= link_to "Edit", edit_repository_handoff_document_path(@repository) %> |
+  <%= link_to "Back to Repository", repository_path(@repository) %>
+</p>
+
+<hr>
+
+<pre style="white-space: pre-wrap; background: #f7f7f7; padding: 16px; border: 1px solid #ddd;">
+<%= @handoff_document.generated_markdown %>
+</pre>

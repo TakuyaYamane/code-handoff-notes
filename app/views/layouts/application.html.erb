@@ -1,0 +1,19 @@
+<body>
+  <header style="padding: 16px; border-bottom: 1px solid #ddd;">
+    <h1>
+      <%= link_to "CodeHandoff Notes", root_path %>
+    </h1>
+  </header>
+
+  <main style="max-width: 960px; margin: 32px auto; padding: 0 16px;">
+    <% if notice.present? %>
+      <p style="color: green;"><%= notice %></p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p style="color: red;"><%= alert %></p>
+    <% end %>
+
+    <%= yield %>
+  </main>
+</body>

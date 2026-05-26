@@ -1,0 +1,30 @@
+<h2><%= @repository.name %></h2>
+
+<p>
+  <strong>URL:</strong>
+  <%= link_to @repository.url, @repository.url, target: "_blank", rel: "noopener" %>
+</p>
+
+<p>
+  <%= @repository.description %>
+</p>
+
+<p>
+  <%= link_to "Edit Repository", edit_repository_path(@repository) %> |
+  <%= link_to "Delete Repository", repository_path(@repository), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+  <%= link_to "Back to Project", project_path(@repository.project) %>
+</p>
+
+<hr>
+
+<h3>Handoff Document</h3>
+
+<% if @handoff_document.present? %>
+  <p>
+    <%= link_to "View Handoff Document", repository_handoff_document_path(@repository) %> |
+    <%= link_to "Edit Handoff Document", edit_repository_handoff_document_path(@repository) %>
+  </p>
+<% else %>
+  <p>No handoff document yet.</p>
+  <%= link_to "Create Handoff Document", new_repository_handoff_document_path(@repository) %>
+<% end %>

@@ -1,0 +1,2 @@
+module HandoffDocumentsHelper
+end

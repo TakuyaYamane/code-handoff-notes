@@ -1,0 +1,18 @@
+<h2>Projects</h2>
+
+<p>
+  <%= link_to "New Project", new_project_path %>
+</p>
+
+<% if @projects.any? %>
+  <ul>
+    <% @projects.each do |project| %>
+      <li>
+        <strong><%= link_to project.name, project_path(project) %></strong>
+        <p><%= project.description %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No projects yet.</p>
+<% end %>
