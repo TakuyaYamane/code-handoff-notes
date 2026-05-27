@@ -3,7 +3,7 @@
 ## URL
 
 - GitHub Repository: https://github.com/TakuyaYamane/code-handoff-notes
-- Demo: 準備中
+- Demo: http://43.207.188.47
 
 CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフトウェアの引き継ぎドキュメントを作成する Ruby on Rails アプリです。
 
@@ -27,6 +27,7 @@ CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフト�
 - GitHub情報を含めたMarkdownドキュメント生成
 - 日本語UI
 - デモデータの作成
+- AWS EC2上での本番公開
 
 ## スクリーンショット
 
@@ -44,7 +45,7 @@ CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフト�
 
 ## 技術スタック
 
-- Ruby
+- Ruby 3.4.7
 - Ruby on Rails
 - PostgreSQL
 - ERB
@@ -52,6 +53,11 @@ CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフト�
 - GitHub API
 - HTTParty
 - Git / GitHub
+- AWS EC2
+- Amazon RDS for PostgreSQL
+- Nginx
+- Puma
+- systemd
 
 ## データベース設計
 
@@ -104,7 +110,79 @@ GitHubリポジトリを起点に、プロジェクト情報と運用メモを�
 
 取得した情報は、リポジトリ詳細画面だけでなく、生成される引き継ぎドキュメントにも反映されます。
 
-## セットアップ
+## AWSデプロイ構成
+
+本アプリは、AWS上に以下の構成でデプロイしています。
+
+```text
+User
+  ↓
+EC2
+  ↓
+Nginx
+  ↓
+Puma
+  ↓
+Rails
+  ↓
+RDS PostgreSQL
+```
+
+### 使用しているAWSサービス
+
+- Amazon EC2：Railsアプリケーションサーバー
+- Amazon RDS for PostgreSQL：本番データベース
+- Amazon EBS：EC2のストレージ
+- Security Group：SSH、HTTP、HTTPS、PostgreSQL接続の制御
+
+### サーバー構成
+
+EC2上にUbuntuサーバーを構築し、Nginxをリバースプロキシとして設定しています。
+
+RailsアプリケーションはPumaで起動し、systemdでサービス化しています。  
+これにより、EC2上でPumaを常駐起動できるようにしています。
+
+データベースには Amazon RDS for PostgreSQL を使用し、Railsアプリから `DATABASE_URL` を通して接続しています。
+
+### 本番環境で使用している環境変数
+
+- `RAILS_ENV=production`
+- `DATABASE_URL`
+- `RAILS_MASTER_KEY`
+- `SECRET_KEY_BASE`
+- `GITHUB_TOKEN`
+
+秘密情報はGitHubには含めず、EC2上の環境変数ファイルで管理しています。
+
+## AWS構築で行ったこと
+
+- AWSアカウント作成
+- MFA設定
+- Budgetsによる料金アラート設定
+- EC2インスタンス作成
+- キーペア作成
+- セキュリティグループ設定
+- SSH接続確認
+- EC2インスタンスタイプ変更
+- EBSボリューム拡張
+- Ubuntu上にRuby 3.4.7をインストール
+- Bundlerのインストール
+- GitHubからRailsアプリをclone
+- `bundle install`
+- RDS PostgreSQL作成
+- EC2からRDSへの接続確認
+- `DATABASE_URL` の設定
+- `RAILS_MASTER_KEY` の設定
+- `SECRET_KEY_BASE` の設定
+- production環境で `db:migrate`
+- production環境で `db:seed`
+- production環境で `assets:precompile`
+- Pumaをsystemdで常駐化
+- NginxからPumaへリクエストを転送
+- EC2のパブリックIPでRailsアプリを表示
+- Nginxから静的assetsを配信できるように権限を調整
+
+## ローカル環境でのセットアップ
 
 ```bash
 git clone https://github.com/TakuyaYamane/code-handoff-notes.git
@@ -166,9 +244,31 @@ bin/rails db:seed
 
 Markdownにすることで、GitHubのREADME、社内Wiki、Issue、Pull Requestなどにも転用しやすい形式にしています。
 
+### 6. AWS上に自分でサーバーを構築したこと
+
+Railsアプリをローカルで動かすだけでなく、AWS EC2上にUbuntuサーバーを構築し、Nginx、Puma、RDS PostgreSQLを使って本番環境として公開しました。
+
+EC2、RDS、Security Group、EBS、Nginx、Puma、systemd、環境変数管理など、Webアプリを外部公開するために必要なサーバー構築の流れを実際に経験しました。
+
+## AWS構築で学んだこと
+
+- EC2はAWS上でLinuxサーバーを構築するために使う
+- セキュリティグループでSSH、HTTP、HTTPS、PostgreSQLの通信を制御する
+- Nginxは外部からのHTTPリクエストを受けるWebサーバーとして使う
+- PumaはRailsアプリケーションを動かすアプリケーションサーバーとして使う
+- RDSは本番環境のPostgreSQLデータベースとして利用できる
+- 本番環境では `DATABASE_URL`、`RAILS_MASTER_KEY`、`SECRET_KEY_BASE` などの環境変数が必要になる
+- RubyのビルドにはCPU、メモリ、ディスク容量が必要
+- 小さいインスタンスではRubyビルド時に容量不足や接続切れが起きることがある
+- EBSボリュームを拡張することで、EC2のディスク容量を増やせる
+- systemdを使うことで、Pumaをサービスとして常駐化できる
+- NginxからPumaへリクエストを転送することで、Railsアプリを外部公開できる
+- Nginxで静的assetsを配信するには、ファイルの配置と権限設定が重要になる
+
 ## 今後の改善
 
-- AWSへのデプロイ
+- 独自ドメイン設定
+- HTTPS化
 - 認証機能
 - チーム共有機能
 - Markdownエクスポート機能
@@ -192,6 +292,11 @@ Markdownにすることで、GitHubのREADME、社内Wiki、Issue、Pull Request
 - Markdown生成
 - Git / GitHubでの開発管理
 - READMEによるポートフォリオの見せ方
+- AWS EC2でのサーバー構築
+- RDS PostgreSQLとの接続
+- NginxとPumaを使ったRailsアプリ公開
+- systemdによるPumaの常駐化
+- 本番環境での環境変数管理
 
 ## 今後の展望
 
