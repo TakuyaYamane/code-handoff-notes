@@ -1,5 +1,10 @@
 # CodeHandoff Notes
 
+## URL
+
+- GitHub Repository: https://github.com/TakuyaYamane/code-handoff-notes
+- Demo: 準備中
+
 CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフトウェアの引き継ぎドキュメントを作成する Ruby on Rails アプリです。
 
 ソフトウェア開発における「属人化」「引き継ぎ不足」「ドキュメント不足」という課題に対して、プロジェクト情報・リポジトリ情報・セットアップ手順・運用メモ・リスクなどを整理し、Markdown形式のドキュメントとして残せるようにすることを目的としています。
