@@ -3,7 +3,7 @@
 ## URL
 
 - GitHub Repository: https://github.com/TakuyaYamane/code-handoff-notes
-- Demo: http://43.207.188.47
+- Demo: http://16.76.115.151
 
 CodeHandoff Notes は、GitHubリポジトリの情報をもとに、ソフトウェアの引き継ぎドキュメントを作成する Ruby on Rails アプリです。
 
